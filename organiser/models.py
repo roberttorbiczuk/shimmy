@@ -9,14 +9,15 @@ DANCE_ROLE = (
 )
 
 
-class Person(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    group = models.ForeignKey(Group, default=None, null=True, blank=True, on_delete=models.SET_NULL)
-    phone = models.IntegerField(null=True, blank=True)
-    dance_role = models.CharField(choices=DANCE_ROLE, max_length=10)
-    rodo_delaration = models.FileField(upload_to='rodo_directory_path')
-    status = models.CharField(max_length=100, default=None)
-    status_date = models.CharField(max_length=100, default=None)
+class Profile(models.Model):
+    first_name = models.CharField('Imię', max_length=20)
+    last_name = models.CharField('Nazwisko', max_length=30)
+    group = models.ForeignKey(Group, default=None, null=True, blank=True, on_delete=models.SET_NULL, verbose_name='Grupa')
+    phone = models.IntegerField('Telefon', null=True, blank=True)
+    dance_role = models.CharField('Lead or Follow', choices=DANCE_ROLE, max_length=10, default='Follow')
+    rodo_declaration = models.FileField('Deklaracja rodo', upload_to='rodo_directory_path', default=None, null=True, blank=True)
+    status = models.CharField('Status', max_length=100, default=None)
+    status_date = models.DateField('Data wysłania', max_length=20, default=None)
     created = models.DateTimeField()
     modified = models.DateTimeField()
 
@@ -26,7 +27,7 @@ class Person(models.Model):
             self.user.is_active = False
             self.created = timezone.now()
         self.modified = timezone.now()
-        return super(Person, self).save(*args, **kwargs)
+        return super(Profile, self).save(*args, **kwargs)
 
     @property
     def rodo_directory_path(self, filename):

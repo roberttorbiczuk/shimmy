@@ -1,10 +1,17 @@
 from django import forms
+from organiser.models import Profile
 
-from organiser.models import Person
 
+class ProfileForm(forms.ModelForm):
 
-class PersonForm(forms.ModelForm):
-    
     class Meta:
-        model = Person
-        fields = '__all__'
+        model = Profile
+        exclude = ['created', 'modified', 'rodo_declaration']
+
+    # To add widget in simple way
+    # def __init__(self, *args, **kwargs):
+    #     super(ProfileForm, self).__init__(*args, **kwargs)
+    #     for key, field in self.fields.items():
+    #         print(key, field)
+    #         if key == 'status_date':
+    #             field.widget.attrs['type'] = 'date'
