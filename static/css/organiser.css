@@ -1,0 +1,8 @@
+body {
+    padding-top: 65px;
+}
+
+.multiple-checkbox ul {
+    padding-left: 0px;
+    list-style: none;
+}

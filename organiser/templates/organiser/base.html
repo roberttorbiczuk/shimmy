@@ -1,17 +1,36 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html lang="pl-PL">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/organiser.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <title>ShimShamShimmyApp</title>
 </head>
 <body>
-    <h1>Aplikacja do zarządzania ShimShamem</h1>
-    <a href="{% url 'add' %}">Dodaj użytkownika</a>
-    <a href="{% url 'groups_list' %}">Lista grup</a>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'list' %}">Aplikacja do zarządzania ShimShamem</a>
+        </div>
 
-    {% block content %}
-    {% endblock %}
-
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'add' %}">Dodaj użytkownika</a></li>
+                <li><a href="{% url 'groups_list' %}">Lista grup</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+        {% block content %}
+        {% endblock %}
+        </div>
+    </div>
 
 </body>
 </html>
