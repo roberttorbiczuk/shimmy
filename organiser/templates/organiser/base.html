@@ -6,9 +6,12 @@
 </head>
 <body>
     <h1>Aplikacja do zarządzania ShimShamem</h1>
+    <a href="{% url 'add' %}">Dodaj użytkownika</a>
+    <a href="{% url 'groups_list' %}">Lista grup</a>
 
     {% block content %}
     {% endblock %}
+
 
 </body>
 </html>

@@ -1,0 +1,12 @@
+{% extends 'organiser/base.html' %}
+
+{% block content %}
+    <h1>Grupy:</h1>
+<ul>
+    {% for group in object_list %}
+        <li><a href="{% url 'group' pk=group.id %}">{{ group.name }}</a></li>
+    {% empty %}
+        <li>No groups yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

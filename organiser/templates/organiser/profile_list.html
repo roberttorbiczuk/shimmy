@@ -1,0 +1,15 @@
+{% extends 'organiser/base.html' %}
+
+{% block content %}
+    <h1>Users</h1>
+<ul>
+    {% for profile in object_list %}
+        <li>{{ profile.first_name }} - {{ profile.last_name }}</li>
+        <a href="{% url 'edit' pk=profile.id %}">Edytuj</a>
+        <a href="{% url 'delete' pk=profile.id %}">Usuń</a>
+
+    {% empty %}
+        <li>No users yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

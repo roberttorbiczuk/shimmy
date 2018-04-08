@@ -1,0 +1,12 @@
+{% extends 'organiser/base.html' %}
+
+{% block content %}
+    <p>Czy na pewno chcesz usunac usera o id {{ object.id }}?</p>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Usun!">
+</form>
+    </br>
+    <a href="{% url 'list' %}">Anuluj</a>
+{% endblock %}

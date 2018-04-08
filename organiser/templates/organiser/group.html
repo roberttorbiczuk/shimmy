@@ -1,0 +1,39 @@
+{% extends 'organiser/base.html' %}
+
+{% block content %}
+<h2>Grupa {{ group.id }}</h2>
+
+    <table>
+      <tr>
+        <th>Lp.</th>
+        <th>Data rejestracji</th>
+        <th>Imię i Nazwisko</th>
+        <th>Partner</th>
+        <th>Rola</th>
+        <th>Telefon</th>
+        <th>E-mail</th>
+        <th>Grupa</th>
+        <th>Status</th>
+      </tr>
+
+    {% for profile in group %}
+        <tr>
+            <th>{{ forloop.counter|default_if_none:"" }}</th>
+            <th>{{ profile.created|default_if_none:"" }}</th>
+            <th>{{ profile|default_if_none:"" }}</th>
+            <th>{{ profile.partner|default_if_none:"" }}</th>
+            <th>{{ profile.dance_role|default_if_none:"" }}</th>
+            <th>{{ profile.phone|default_if_none:"" }}</th>
+            <th>{{ profile.mail|default_if_none:"" }}</th>
+            <th>
+                {% for gr in profile.group.all %}
+                    {{ gr.name }},
+                {% endfor %}
+            </th>
+            <th>{{ profile.status|default_if_none:"" }}</th>
+        </tr>
+    {% endfor %}
+
+    </table>
+
+{% endblock %}
