@@ -1,5 +1,5 @@
 from django import forms
-from organiser.models import Profile
+from organiser.models import Profile, CSV, TemporaryXLSFile
 from django.contrib.auth.models import Group
 
 
@@ -19,3 +19,17 @@ class ProfileForm(forms.ModelForm):
             if isinstance(field.widget, forms.DateInput):
                 field.widget.attrs['title'] = 'Podaj datę w formacie DD.MM.YYYY'
                 field.widget.attrs.update({'placeholder': 'DD.MM.YYYY'})
+
+
+class UploadFileForm(forms.ModelForm):
+
+    class Meta:
+        model = CSV
+        fields = '__all__'
+
+
+class TemporaryFileForm(forms.ModelForm):
+
+    class Meta:
+        model = TemporaryXLSFile
+        fields = '__all__'

@@ -1,9 +1,9 @@
 {% extends 'organiser/base.html' %}
 
 {% block content %}
-<h2>Grupa {{ group.id }}</h2>
+<h2>Grupa {{ group.name }}</h2>
 
-    <table>
+    <table class="table">
       <tr>
         <th>Lp.</th>
         <th>Data rejestracji</th>
@@ -16,21 +16,21 @@
         <th>Status</th>
       </tr>
 
-    {% for profile in group %}
+    {% for profile in profiles %}
         <tr>
-            <th>{{ forloop.counter|default_if_none:"" }}</th>
-            <th>{{ profile.created|default_if_none:"" }}</th>
-            <th>{{ profile|default_if_none:"" }}</th>
-            <th>{{ profile.partner|default_if_none:"" }}</th>
-            <th>{{ profile.dance_role|default_if_none:"" }}</th>
-            <th>{{ profile.phone|default_if_none:"" }}</th>
-            <th>{{ profile.mail|default_if_none:"" }}</th>
-            <th>
+            <td scope="col">{{ forloop.counter|default_if_none:"" }}</td>
+            <td scope="col">{{ profile.created|default_if_none:"" }}</td>
+            <td scope="col">{{ profile|default_if_none:"" }}</td>
+            <td scope="col">{{ profile.partner|default_if_none:"" }}</td>
+            <td scope="col">{{ profile.dance_role|default_if_none:"" }}</td>
+            <td scope="col">{{ profile.phone|default_if_none:"" }}</td>
+            <td scope="col">{{ profile.mail|default_if_none:"" }}</td>
+            <td scope="col">
                 {% for gr in profile.group.all %}
-                    {{ gr.name }},
+                    {{ gr.name }}
                 {% endfor %}
-            </th>
-            <th>{{ profile.status|default_if_none:"" }}</th>
+            </td >
+            <td scope="col">{{ profile.status|default_if_none:"" }}</td>
         </tr>
     {% endfor %}
 

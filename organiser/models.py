@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User, Group
 from django.db import models
 from django.utils import timezone
-
+from .validators import validate_file_extension
+from django.conf import settings
 
 DANCE_ROLE = (
     ('F', 'Follower'),
@@ -42,3 +43,13 @@ class Profile(models.Model):
     def get_rodo_directory_path(self, filename):
         # file will be uploaded to MEDIA_ROOT/user_<id>/rodo_<filename>
         return 'usersfiles/user_{0}/rodo_{1}'.format(self.user.id, filename)
+
+
+class CSV(models.Model):
+    title = models.CharField(max_length=50)
+    file = models.FileField('Plik', upload_to='import/', validators=[validate_file_extension])
+
+
+class TemporaryXLSFile(models.Model):
+    file = models.FileField(upload_to='temporary/')
+
