@@ -8,9 +8,7 @@ from organiser.forms import ProfileForm, UploadFileForm, TemporaryFileForm
 from .models import Profile, CSV
 from django.contrib.auth.models import Group
 import xlrd
-import os
-from django.conf import settings
-
+from django.utils.dateparse import parse_date
 
 def index(request):
     return render(request, 'organiser/index.html', {})
@@ -99,28 +97,34 @@ class ImportDataFromFileView(View):
     def post(self, request):
         form = TemporaryFileForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            path_to_file = settings.MEDIA_ROOT + '/temporary/' + request.FILES.get('file').name
-            workbook = xlrd.open_workbook(os.path.abspath(path_to_file))
-            worksheet = workbook.sheet_by_index(3)
+            workbook = xlrd.open_workbook(file_contents=request.FILES['file'].read())
+            worksheet = workbook.sheet_by_index(2)
             cell = worksheet.cell_value
-            for row in range(worksheet.nrows):
+            for row in range(1, worksheet.nrows):
+                if worksheet.cell_type(row, 1) == xlrd.XL_CELL_EMPTY:
+                    continue
                 try:
                     profile = Profile()
-                    name = cell(row+1, 1).split()
+                    name = cell(row, 1).split()
                     profile.first_name = name[0]
                     profile.last_name = name[1]
-                    profile.phone = int(cell(row+1, 4))
-                    status = cell(row+1, 8).split()
+
+                    phone_number = str(cell(row, 4)).replace(" ", "")
+                    if phone_number:
+                        profile.phone = int(float(phone_number))
+                    profile.mail = cell(row, 5)
+                    status = cell(row, 8).split()
                     if status:
-                        profile.status = status[0]
-                    try:
-                        profile.save()
-                    except:
-                        print("coś poszło nie tak")
-                except:
-                    print("coś poszło nie tak")
-            os.remove(path_to_file)
+                        profile.status_date = parse_date(status[0].replace('.', '-'))
+
+                    exist_profile = Profile.objects.filter(first_name=name[0], last_name=[1])
+                    if not exist_profile:
+                        try:
+                            profile.save()
+                        except Exception as e:
+                            print(profile.last_name + ' ' + e)
+                except Exception as e:
+                    print(e)
             return redirect('list')
         return render(request, 'organiser/base_form.html', {'form': form, 'enctype': 'enctype'})
 
